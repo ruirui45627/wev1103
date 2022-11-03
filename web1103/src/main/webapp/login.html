@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login Form</title>
+</head>
+<body>
+<script src="js/jquery3.6.0.js"></script>
+<form id="form1">
+ 
+   User Name :<input type="text" id="user" name="user" value="George"/><br/>
+   Password:<input type="password" id="pwd" name="password" value="g001"/><br/>
+   <button>Send</button>
+ 
+</form>
+<div id="display"></div>
+<div id="st"></div>
+<script>
+    function show(data,status){
+        $("#st").text(status);
+        $("#display").html(data);
+    }    function send(e){
+        //alert("text");//先run成功
+//var name=$("#user").val();//val=裡面的值
+//var password=$("#pwd").val();
+//$.post("UserPasswordServlet",{"user":name,"password":password},show);
+//傳送後端名字 //傳資料到後端 //前端傳一個function到後端
+
+        e.preventDefault();
+        var name=$("#user").val();
+        var password=$("#pwd").val();
+        //var frm={"user":name,"password":password};
+        var frm=$("#form1").serialize();
+        alert(frm);
+        //$.post("UserPasswordServlet",frm,show);
+         $.ajax({
+               url:'UserPasswordServlet',
+               type :'POST',
+               data : frm,
+contentType:"application/x-www-form-urlencoded",
+               cache: false,
+               datatype:"text/html",
+              success : function(data) 
+              {            	  
+                  $("#display").html(data);
+              },error: function(data) 
+              {
+                 console.log('無法送出');
+              }
+        });
+       
+    }
+    function start(){
+ //$("button").click(send);
+       $("#form1").submit(send);
+    }
+    $(document).ready(start);
+</script>
+</body>
+</html>
